@@ -1,5 +1,10 @@
 const std = @import("std");
 
+//optiontype name = value
+//the: optiontype has types: long("--") and short("-")
+//name: name is a string, such as --a, a is a name
+//value: value also is a string
+
 pub const OptionType = enum {
     long,
     short,
@@ -18,10 +23,15 @@ pub const ArgumentInterpretation = union(enum) {
 };
 
 pub fn interpret(arg: []const u8) !ArgumentInterpretation {
-    if (arg.len == 0) return ArgumentInterpretation{ .other = arg };
+    
+    if (arg.len == 0) {
+        return ArgumentInterpretation{ .other = arg };
+    }
 
     if (arg[0] == '-') {
-        if (arg.len == 1) return ArgumentInterpretation{ .other = arg };
+        if (arg.len == 1) {
+            return ArgumentInterpretation{ .other = arg };
+        }
 
         var name = arg[1..];
         var option_type = OptionType.short;
