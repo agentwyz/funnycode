@@ -55,6 +55,8 @@ pub fn interpret(arg: []const u8) !ArgumentInterpretation {
             }};
         }
     }
+
+    const expect 
 }
 
 
