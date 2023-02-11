@@ -1,48 +1,43 @@
 const std = @import("std");
+const command = @import("command.zig");
+const Printer = @import("Printer.zig");
 
-const Self = @This();
-
-out: std.fs.File.Writer,
-has_tty: bool,  
-
-const color_clear = "0";
+const color_section = "33;1";
+const color_options = "32";
+const color_options = "32";
 
 pub
-fn init(file: std.fs.File) Self {
-    return .{
-        .out = file.writer(),
-        //The OS-specific file descriptor or file handle.
-        .has_tty = std.os.isatty(file.handle),
+fn print_command_help(current_command: *const command.Command, command_path: []const *const command.Command) !void{
+    const stdout = std.io.getStdOut();
+    
+    var help_printer = HelpPrinter{
+        .printer = Printer.init(stdout),
     };
+
+    help_printer.printCommandHelp(current_command, command_path);
 }
 
-pub
-inline fn write(self: *Self, text: []const u8) void {
-    _ = self.out.write(text) catch unreachable;
-}
+const HelpPrinter = struct {
+    printer: Printer,
 
-pub
-inline fn format(self: *Self, comptime text: []const u8, args: anytype) void {
-    std.fmt.format(self.out, text, args) catch unreachable;
-}
+    fn printCommandHelp(self: *HelpPrinter, 
+                        current_command: *const command.Command, 
+                        command_path: []const *const command.Command) void {
+                        //user 
+                        self.printer.printInColor(color_section, "USAGE:");
+                        self.printer.format("\n ", .{});
+                        self.printer.printColor(color_options);
+                        for (command_path) |cmd| {
+                            self.printer.format("{s}", .{cmd.name});
+                        }
 
-pub 
-inline fn printColor(self: *Self, color: []const u8) void {
-    if (self.has_tty)
-        self.format("{c}[{s}m", .{0x1b, color});
-}
+                        self.printer.format("{s}", .{cmd.name});
+                        self.printColor
+                        
 
-pub
-inline fn printInColor(self: *Self, color: []const u8, text: []const u8) void {
-    self.printColor(color);
-    self.write(text);
-    self.printColor(color_clear);
-}
 
-pub
-inline fn printSpaces(self: *Self, cnt: usize) void {
-    var i: unsize = 0;
-    while (i < cnt) : (i += 1) {
-        self.write(" ");
-    }    
+
+
+
+                        }
 }

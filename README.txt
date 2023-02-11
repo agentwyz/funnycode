@@ -12,3 +12,7 @@ this some good articles about js：
 2. the first link just introduce some details that about jsc， this article is about js engine
 ---->https://zhuanlan.zhihu.com/p/20505562
 3. next aritcle is about "how to implement a js parser in Cplusplus"
+
+
+some vedioes
+1. good for web font： https://www.youtube.com/@KevinPowell
