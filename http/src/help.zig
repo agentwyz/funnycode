@@ -68,11 +68,25 @@ const HelpPrinter = struct {
                         }
 
                         self.printer.printInColor(color_section, "\nOPTIONS:\n");
-                        
+                        var option_column_width: usize = 7;
 
+                        if (current_command.options) |option_int| 
+                        {
+                            var max_option_width: unsize = 0;
 
+                            for (option_list) |options| {
+                                var w = option.long_name.len + option.value_name.len + 3;
+                                max_option_width = std.math.max(max_option_width, w);
+                            }
 
+                            option_column_width = max_option_width + 3;
+                            for (option_int) |option| {
+                                if (option.short_alias) |alias| {
 
+                                }
+                            }
+
+                        }
 
                         }
 }
