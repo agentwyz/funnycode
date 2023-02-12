@@ -3,16 +3,12 @@ package main
 import "fmt"
 
 
-type a struct {
-	//c int = 1
-	//b a = a{c: 1}
-}
-
-func new() a{
-	return a{}
-}
+// type CharSet struct {
+// 	a int
+// }
 
 func main() {
-	var a byte = 'a';
+	//var a CharSet = CharSet{a: 1}
+	a := 1
 	fmt.Printf("%T", a)
 }

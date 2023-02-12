@@ -2,24 +2,21 @@ package main
 
 import (
 	"container/list"
-	"fmt"
 )
 
 type GrammarNode struct {
 	//子节点
-	name string
+	name     string
 	Children list.List
-	Type GrammarNodeType
-	
+	Type     GrammarNodeType
+
 	charSet CharSet
 
-	
 	minTimes int
 	maxTimes int
-
 }
 
-func NewNode(name string, Type GrammarNodeType) GrammarNode{
+func NewNode(name string, Type GrammarNodeType) GrammarNode {
 	return GrammarNode{name: name, Type: Type, minTimes: 1, maxTimes: 1}
 }
 
@@ -27,24 +24,33 @@ func (gnode GrammarNode) CreateChild(Type GrammarNodeType) GrammarNode {
 
 }
 
-func (gnode GrammarNode) setRepeatTimes(){
+func (gnode GrammarNode) setRepeatTimes() {
 
 }
 
 //---------------charset------------------------------
 type CharSet struct {
-	Letter CharSet
+	Letter      CharSet
 	SmallLetter CharSet
-	
 
 	//其实字符
 	fromChar byte
 	//终止字符
 	toChar byte
+
+	//是否取得补集
+	exclude	bool
+
+	//----一些常量-------
+	
 }
 
 func NewCharSet(char byte) CharSet {
-	return CharSet{}
+	return CharSet{
+		formChar: char,
+		toChar: char,
+		exclude: false,
+	}
 }
 
 func (charSet CharSet) InitLetter() {
@@ -56,18 +62,16 @@ func (charSet *CharSet) addSubSet() {
 
 }
 
-
 //---------------GrammarNodeType---------------------
 type GrammarNodeType int
 
 const (
-	And GrammarNodeType = iota //并运算
-	Or           //或运算
-	char        //字符, 用于表示
-	Token		//一个
-	Epsilon    //空集合
+	And     GrammarNodeType = iota //并运算
+	Or                             //或运算
+	char                           //字符, 用于表示
+	Token                          //一个
+	Epsilon                        //空集合
 )
-
 
 //-------------simpleGrammar1-----------------------
 func sampleGrammar1() GrammarNode {
@@ -84,7 +88,7 @@ func sampleGrammar1() GrammarNode {
 	var firstLetter GrammarNode = idNode.CreateChild(letter)
 	_ = firstLetter
 
-	var letterOrDigit GrammarNode = idNode.CreateChild(letter);
+	var letterOrDigit GrammarNode = idNode.CreateChild(letter)
 	letterOrDigit.setRepeatTimes(0, -1)
 
 	//------------number--------------------------
@@ -93,7 +97,6 @@ func sampleGrammar1() GrammarNode {
 
 	return node
 }
-
 
 func main() {
 
