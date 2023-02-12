@@ -16,3 +16,18 @@ this some good articles about js：
 
 some vedioes
 1. good for web font： https://www.youtube.com/@KevinPowell
+
+---------------
+concurry:
+
+Concurrency is not just a time question, 
+
+although time is a factor. Concurrency refers to the ability of a system to perform multiple tasks at the same time, 
+
+independently and possibly in parallel. In a concurrent system, tasks are executed simultaneously, 
+
+allowing the system to make efficient use of resources and improve performance.
+
+However, managing concurrency can be challenging because tasks can interact with each other in unexpected ways, such as race conditions, deadlocks, and other synchronization problems. This is why concurrency is often considered a complex area of computer science and requires careful planning, design, and implementation to ensure that the system behaves as expected.
+
+So, while time is a factor in concurrency, it is not the only factor. The key to understanding concurrency is to think about how tasks interact with each other and how the system as a whole can manage and coordinate these interactions.
