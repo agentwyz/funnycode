@@ -1,14 +1,16 @@
 package main
 
-import "fmt"
+import (
+	"container/list"
+	"fmt"
+)
 
 
-// type CharSet struct {
-// 	a int
-// }
 
 func main() {
-	//var a CharSet = CharSet{a: 1}
-	a := 1
-	fmt.Printf("%T", a)
+	l := list.New()
+	l.PushBack("cons")
+	l.PushBack(67)
+
+	fmt.Println(l.Front().Value)
 }
