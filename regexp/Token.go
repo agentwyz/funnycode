@@ -1,7 +1,5 @@
 package main
 
-import "net/textproto"
-
 type Token struct {
 	//token的类型
 	tokenType string
@@ -70,6 +68,77 @@ func (this *Token) getStartPos() int {
 	return this.startPos
 }
 
-func (this *Token) setStartPos(startPos int) int {
-	
+
+func (this *Token) setStartPos(startPos int) {
+	this.startPos = startPos
+}
+
+
+func (this *Token) getEndPos() int {
+	return this.endPos
+}
+
+func (this *Token) setEndPos(endPos int) {
+	this.startPos = endPos
+}
+
+func (this *Token) getLineNumber() int {
+	return this.lineNumber
+}
+
+func (this *Token) setLineNumber(lineNumber int) {
+	this.lineNumber = lineNumber
+}
+
+func (this *Token) getStartColumn() int {
+	return this.startColumn
+}
+
+func (this *Token) setStartColumn(startColumn int) {
+	this.startColumn = startColumn
+}
+
+func (this *Token) getEndColumn() int {
+	return this.endColumn
+}
+
+func (this *Token) setEndColumn(endColumn int) {
+	this.endColumn = endColumn
+}
+
+func (this *Token) equals(obj interface{}) bool {
+	//当前调用的对象this, 传入的对象
+	if this == obj {
+		return true
+	}
+
+	var token *Token = obj.(*Token)
+
+	if this.tokenType != token.tokenType {
+		return false
+	}
+
+	if this.text == "" {
+		if token.text != ""{
+			return false
+		}
+	} else {
+		if this.text != token.text {
+			return false
+		}
+	}
+
+	return true
+}
+
+
+func (this *Token) toString() string {
+	var rtn string = this.tokenType
+	rtn += ":"
+
+	if this.text != "" {
+		rtn += this.text
+	}
+
+	return rtn
 }

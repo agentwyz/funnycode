@@ -19,11 +19,17 @@ type GrammarNode struct {
 	maxTimes int
 
 	//节点名称
-	name     string
+	name string
 
 	//语法规则中的Token, 也就是终结符
-	token Token
+	token *Token
 
+	//是否被词法处理器忽略, 比如空白字符
+	neglect bool
+
+}
+
+func NewNode(name string, ) {
 
 }
 
@@ -33,10 +39,20 @@ func NewNode(name string, nodeType GrammarNodeType) GrammarNode {
 		nodeType: nodeType,
 		minTimes: 1,
 		maxTimes: 1,
+		neglect: false,
 	}
 }
 
-func (gNode *GrammarNode) NewNode(Type GrammarNodeType) GrammarNode {
+
+
+
+func (this *GrammarNode) NewNodeType(set CharSet) GrammarNode {
+	this.nodeType = char
+	this
+}
+
+
+func (this *GrammarNode) NewNode(Type GrammarNodeType) GrammarNode {
 	//返回一个对象
 	return GrammarNode{nodeType: Type}
 }
@@ -47,8 +63,10 @@ func (this *GrammarNode) CreateChild(Type GrammarNodeType) GrammarNode {
 
 }
 
-func (gNode *GrammarNode) Create(charSet CharSet) GrammarNode {
-
+func (this *GrammarNode) Create(charSet CharSet) GrammarNode {
+	var grammarNode GrammarNode = NewNode(charSet)
+	this.addChild(grammarNode)
+	return grammarNode
 }
 
 func (this *GrammarNode) addChild (child GrammarNode) {
@@ -56,30 +74,38 @@ func (this *GrammarNode) addChild (child GrammarNode) {
 	this.children.PushBack(child)
 
 	if child.name != "" {
-		if child.getGrammarName() != ""{
+		if child.getGrammarName() != "" {
 			child.name = "_" + child.getGrammarName() + string(this.children.Len())
 		} else {
-			child.name = "_" + string(child.Type) + string(this.children.Len())
+			child.name = "_" + string(child.nodeType) + string(this.children.Len())
 		}
 
-		if this.name != ""{
+		if this.name != "" {
 			child.name = this.name + child.name
 		}
 
-		if child.name[0] != '_'{
+		if child.name[0] != '_' {
 			child.name = "_" + child.name
 		}
 	}
 
 }
 
-func (gNode *GrammarNode) getGrammarName () string {
-	if gNode.token != "" {
-		return token.getType()
-	} else if gNode.isNamedNode() {
-		return name
+func (this *GrammarNode) getGrammarName () string {
+	if this.token != nil {
+		return this.token.getType()
+	} else if this.isNamedNode() {
+		return this.name
 	}
 	return ""
+}
+
+func (this *GrammarNode) isNamedNode() bool {
+	if this.name != "" && len(this.name) > 1 && this.name[0] != '_' {
+		return true
+	} else {
+		return false
+	}
 }
 
 
@@ -158,25 +184,25 @@ func (this *CharSet) addSubSet(set CharSet) {
 type GrammarNodeType int
 
 const (
-	And     GrammarNodeType = iota //并运算
-	Or                             //或运算
+	and     GrammarNodeType = iota //并运算
+	or                             //或运算
 	char                           //字符, 用于表示
-	//Token                          //一个
-	Epsilon                        //空集合
+	token                          //一个
+	epsilon                        //空集合
 )
 
 //-------------simpleGrammar1-----------------------
 func sampleGrammar1() GrammarNode {
-	var node GrammarNode = NewNode("regex1", Or)
+	var node GrammarNode = NewNode("regex1", or)
 
 	//------------int-------------------------------
-	var intNode GrammarNode = node.CreateChild(And)
+	var intNode GrammarNode = node.CreateChild(and)
 	intNode.Create(NewCharSet('i'))
 	intNode.Create(NewCharSet('n'))
 	intNode.Create(NewCharSet('t'))
 
 	//------------identifier------------------------
-	var idNode GrammarNode = node.CreateChild(And)
+	var idNode GrammarNode = node.CreateChild(and)
 	var firstLetter GrammarNode = idNode.Create(initCharSet().letter)
 	_ = firstLetter
 
