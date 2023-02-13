@@ -6,55 +6,82 @@ import (
 
 type GrammarNode struct {
 	//子节点
-	name     string
-	Children list.List
-	Type     GrammarNodeType
-
+	children list.List
+	//节点类型
+	nodeType     GrammarNodeType
+	//用于词法规则, 指的是该节点能匹配的字符集合
+	//其中CharSet可以是一个树状结构, 有
 	charSet CharSet
 
+	//该节点可以重复的次数
+	//默认次数
 	minTimes int
 	maxTimes int
+
+	//节点名称
+	name     string
+
+	//语法规则中的Token, 也就是终结符
+	token Token
+
+
 }
 
-func NewNode(name string, Type GrammarNodeType) GrammarNode {
-	return GrammarNode{name: name, Type: Type, minTimes: 1, maxTimes: 1}
+func NewNode(name string, nodeType GrammarNodeType) GrammarNode {
+	return GrammarNode{
+		name: name,
+		nodeType: nodeType,
+		minTimes: 1,
+		maxTimes: 1,
+	}
 }
 
 func (gNode *GrammarNode) NewNode(Type GrammarNodeType) GrammarNode {
 	//返回一个对象
-	return GrammarNode{Type: Type}
+	return GrammarNode{nodeType: Type}
 }
 
-func (gNode *GrammarNode) CreateChild(Type GrammarNodeType) GrammarNode {
-	var grammarNode GrammarNode = gNode.NewNode(Type)
-	gNode.addChild(grammarNode)
+func (this *GrammarNode) CreateChild(Type GrammarNodeType) GrammarNode {
+	var grammarNode GrammarNode = this.NewNode(Type)
+	this.addChild(grammarNode)
+
 }
 
 func (gNode *GrammarNode) Create(charSet CharSet) GrammarNode {
 
 }
 
-func (gNode *GrammarNode) addChild (child GrammarNode) {
-	gNode.Children = *list.New()
-	gNode.Children.PushBack(child)
+func (this *GrammarNode) addChild (child GrammarNode) {
+	this.children = *list.New()
+	this.children.PushBack(child)
 
 	if child.name != "" {
-		if {
-
+		if child.getGrammarName() != ""{
+			child.name = "_" + child.getGrammarName() + string(this.children.Len())
 		} else {
-
+			child.name = "_" + string(child.Type) + string(this.children.Len())
 		}
 
-		if {
-
+		if this.name != ""{
+			child.name = this.name + child.name
 		}
 
-		if {
-
+		if child.name[0] != '_'{
+			child.name = "_" + child.name
 		}
 	}
 
 }
+
+func (gNode *GrammarNode) getGrammarName () string {
+	if gNode.token != "" {
+		return token.getType()
+	} else if gNode.isNamedNode() {
+		return name
+	}
+	return ""
+}
+
 
 func (gnode GrammarNode) setRepeatTimes() {
 
@@ -82,26 +109,24 @@ type CharSet struct {
 	subSets list.List
 
 	//ascii表, 使用0-17
-
 }
 
-//首先设置一个init函数
+//首先设置一个init函数, 使用进行初始化结构体中的字段
 func initCharSet() CharSet {
 	digit := CharSet{ fromChar: '0', toChar: '9', exclude: false }
 	smallLetter := CharSet{ fromChar: 'a', toChar: 'z', exclude: false }
 	capitalLetter := CharSet{ fromChar: 'A', toChar: 'Z', exclude: false}
-	letter := CharSet{}.InitLetter()
 
 	return CharSet{
 		digit: digit,
 		smallLetter: smallLetter,
 		capitalLeter: capitalLetter,
-		letter: letter,
 	}
 }
 
 func NewCharSet(char byte) CharSet {
 	charSet := initCharSet()
+	letter := charSet.InitLetter()
 
 	return CharSet{
 		fromChar: char,
@@ -110,23 +135,23 @@ func NewCharSet(char byte) CharSet {
 		digit: charSet.digit,
 		smallLetter: charSet.smallLetter,
 		capitalLeter: charSet.capitalLeter,
-		letter: charSet.capitalLeter,
+		letter: letter,
 	}
 }
 
 
-func (charSet CharSet) InitLetter() CharSet{
-	charSet.addSubSet(charSet.smallLetter)
-	charSet.addSubSet(charSet.letter)
-	return charSet
+func (this *CharSet) InitLetter() CharSet {
+	this.addSubSet(this.smallLetter)
+	this.addSubSet(this.letter)
+	return *this
 }
 
 
-func (charSet *CharSet) addSubSet(set CharSet) {
-	if charSet.subSets.Len() == 0 {
-		charSet.subSets = *list.New()
+func (this *CharSet) addSubSet(set CharSet) {
+	if this.subSets.Len() == 0 {
+		this.subSets = *list.New()
 	}
-	charSet.subSets.PushBack(charSet)
+	this.subSets.PushBack(set)
 }
 
 //---------------GrammarNodeType---------------------
@@ -136,7 +161,7 @@ const (
 	And     GrammarNodeType = iota //并运算
 	Or                             //或运算
 	char                           //字符, 用于表示
-	Token                          //一个
+	//Token                          //一个
 	Epsilon                        //空集合
 )
 
