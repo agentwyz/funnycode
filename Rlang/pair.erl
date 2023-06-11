@@ -1,8 +1,5 @@
--moudle(pair)
--export([])
-
-
-
+-moudle(pair).
+-export([]).
 
 
 %%这是一个pair, 我们返回一个这个
