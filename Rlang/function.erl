@@ -1,10 +1,3 @@
-%%what the result of ans
-%%2 * 3 is a expression
-2 * 3
-
-%%what the result of ans
-1 + 2 * 3
-
 %%这是一次绑定
 X = 1234567
 
