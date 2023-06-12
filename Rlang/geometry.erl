@@ -21,6 +21,7 @@ test() ->
     %%执行函数genmetry:area({circle, 10})    
     
     %%如果我们使用Union类型是否就不会出现这种函数的重载
+    %%如果想在函数外部使用的话推荐使用:模块名称+
     12      = area({rectangle, 3, 4}),
     144     = area({square, 12}),
     3.14159 = area({circle, 1, 2}),
