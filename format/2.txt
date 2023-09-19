@@ -1,12 +1,12 @@
-(define add
-    (fun (a b)
-        (if (> a b) :then a :else b)
-))
-
-(record A
-    [a 1]
-    [b 2])
-
-(flow A [add sub mix])
-
-(A.add (+ 1 2))
+(define force-thunk
+    (lambda (th)
+        (cond 
+            [(thunk-cached? th) (thunk-fv th)]
+            [else 
+                (let loop ([val ((thunk-fv th))])
+                    (cond 
+                        [(thunk? val) (loop ((thunk-fv val)))]
+                        [else 
+                            (set-thunk-fv! th val)
+                            (set-thunk-cached?! th #t) 
+                            val]))])))
