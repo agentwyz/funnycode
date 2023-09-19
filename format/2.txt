@@ -1,0 +1,12 @@
+(define add
+    (fun (a b)
+        (if (> a b) :then a :else b)
+))
+
+(record A
+    [a 1]
+    [b 2])
+
+(flow A [add sub mix])
+
+(A.add (+ 1 2))

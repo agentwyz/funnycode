@@ -1,0 +1,42 @@
+公理:
+(ref) M = N
+
+expression:
+    (add) 0 + 0 = 0, 0 + 1 = 1, ...
+    (==) M == M = true, M == N = false
+    (()) obj.x()
+    (=)  (x = y) = y
+
+statement:
+    var
+    let/const
+    class
+    export
+    import
+    if
+    while
+    for
+    try catch
+    throw
+
+struct:
+    a = {}
+    a.x
+    a.y
+    a.z()
+
+class:
+    prototype;
+    constructor;
+    __proto__;
+    
+    class A;
+    class A extends B;
+    super;
+    constructor;
+    this;
+    object;
+
+function:
+    (function add(a, b) {M})
+    ()=>{}
