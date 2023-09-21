@@ -1,0 +1,8 @@
+判断一个函数是否为原始函数, 系统能支持的最原始的函数
+Identity 函数
+
+(ctx0 (lambda (v) `(k . v)))
+ctx0 是callee最顶层的世界, 到达此处, 便可以回到caller的世界
+
+(gensym)
+获取一个新的符号

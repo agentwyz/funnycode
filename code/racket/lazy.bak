@@ -4,8 +4,8 @@
 
 ;;扩展整个环境
 (define ext
-    (lambda (x v env)
-        (cons (cons x v) env)))
+ (lambda (x v env)
+  (cons (cons x v) env)))
 
 (define lookup
   (lambda (x env)
