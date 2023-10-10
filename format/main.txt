@@ -1,0 +1,42 @@
+judgmenets:
+___ is ___
+
+'ratatouille is an Atom
+'age is an Atom
+'rat is an Atom
+
+Atom is a type
+
+表示一种公理语义
+___ is the same ___ as ___
+'citorn is the same Atom as 'citorn
+
+(cons car cdr)
+(cons 'ratatouille 'baguette) is a (Pair Atom Atom)
+
+
+(cdr
+    (cons 'ratatou 'baguette)) is Atom
+(car
+    (cdr
+        (cons 'ratatouille
+            (cons 'baguette 'olive-oil))))
+
+什么是什么? 类型判断
+什么等价什么
+
+cons 表示构造的意思
+[1 | 2] == [1 2] ==> List Int Int
+
+Actually, the expression
+(Pair
+    (cdr
+        (cons Atom 'olive))
+    (car
+        (cons 'oil Atom)))
+它既没有被类型描述，也不是一个类型，因此要求其正规形式是没有意义的。
+
+Normals Forms of Types
+描述数据的特征
+
+An expression with a constructor at the top is called a value
