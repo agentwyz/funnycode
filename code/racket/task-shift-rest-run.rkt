@@ -1,5 +1,7 @@
+#lang racket
+
 (require data/queue)
-(require racket/controal)
+(require racket/control)
 
 ;;全局执行上下文
 (define tasks (make-queue))
@@ -14,12 +16,12 @@
         (if (queue-empty? tasks)
             (void)
             (begin 
-                (rest (dequeue! tasks))
+                (reset (dequeue! tasks))
                 (run)))))
 
 (define sched
     (lambda ()
-        (shift k (addTask k))))
+        (shift k (addTask k))))    ;;这个k可能是当前的上下文
 
 
 (define sum
