@@ -20,3 +20,27 @@ _fun1:
     .global _main
 
 _main:
+    pushq %rbq          #把调用者的栈帧底部地址保存起来
+    movq  %rsq, %rbq    #将栈顶元素保存到rbq
+
+    #分别设置两个参数
+    movl $1, %edi
+    movl $2, %esi
+
+    #调用函数
+    callq _fun1
+
+    #为printf设置参数
+    leaq L_.str(%rip), %rdi
+    movl %eax, %esi
+    
+    callq _printf
+    
+    movl $0, %eax  #设置返回值
+    popq %rbq
+    retq
+
+    .section __TEXT, __cstring, cstring_literals
+
+L_.str:
+    .asciz "Hello World:%d \n"
