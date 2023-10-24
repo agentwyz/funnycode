@@ -1,0 +1,22 @@
+npm init -f
+
+npm config set init.author.email
+npm config set init.author.name
+npm config set init.author.url
+npm config set init.license
+
+1. 从package.json文件中读取scripts对象里面的全部配置
+2. 以传入npm run的一
+3. 在系统默认的shell中执行上述命令
+==================================
+{
+"name": "hello"
+"devDependencies": {
+ "eslint": "latest"
+},
+"scripts": {
+  "eslint": "eslint **.js"
+}
+}
+===================================
+下面我们就可以使用npm run eslint这种命令来完成

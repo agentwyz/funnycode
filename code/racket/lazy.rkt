@@ -15,7 +15,10 @@
 
 ;;每次造一个thunk
 ;;每一个函数可能被缓存
-(struct thunk (fv cached?) #:transparent #:mutable)
+(struct thunk 
+    (fv cached?) 
+    #:transparent 
+    #:mutable)
 
 (struct closure (fun env))
 

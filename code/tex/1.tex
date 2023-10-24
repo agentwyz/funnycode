@@ -1,0 +1,30 @@
+\documentclass{article}
+\usepackage{graphicx} % Required for inserting images
+
+%表示一个title
+\title{latex_learn}
+\author{zhengel2022 }
+\date{October 2023}
+
+\begin{document}
+
+\maketitle
+
+\section{Introduction}
+
+\count0=42
+The value is now '\the\count0'.
+\def\macro{-123456}
+\count0=\macro
+The value is now '\the\count0'.
+
+
+\def\firstmacro{123}
+\def\secondmacro{456}
+\def\thirdmacro{789}
+\count0=\firstmacro\secondmacro\thirdmacro
+the value is now '\the\count0'
+
+
+
+\end{document}

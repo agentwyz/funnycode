@@ -2,15 +2,6 @@
 
 (require data/queue)
 (require racket/control)
-(require racket/engine)
-
-
-(define show
-  (lambda args
-    (display
-     (apply (apply ~a
-                   (appedn))))))
-
 
 ;;全局执行上下文
 (define tasks (make-queue))
@@ -30,12 +21,17 @@
 
 (define sched
     (lambda ()
-        (shift k (addTask k))))    ;;这个k可能是当前的上下文
+        (shift k (addTask k))))    ;;这个k是当前上下文
 
 
 (define sum
     (lambda (n)
-        (sched)         ;;时间延迟
+        (sched)                     ;;将当前上下文添加进task
         (if (= n 0) 0 (+ n (sum (- n 1))))))
 
 
+(addTask (lambda () (println (sum 7))))
+(addTask (lambda () (println (sum 3))))
+(addTask (lambda () (println (sum 5))))
+
+(run)

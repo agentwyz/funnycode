@@ -2,15 +2,6 @@
 
 (require data/queue)
 (require racket/control)
-(require racket/engine)
-
-
-(define show
-  (lambda args
-    (display
-     (apply (apply ~a
-                   (appedn))))))
-
 
 ;;全局执行上下文
 (define tasks (make-queue))
@@ -39,3 +30,8 @@
         (if (= n 0) 0 (+ n (sum (- n 1))))))
 
 
+(addTask (lambda () (println (sum 7))))
+(addTask (lambda () (println (sum 3))))
+(addTask (lambda () (println (sum 5))))
+
+(run)

@@ -1,0 +1,5 @@
+(Record A
+ [a Int]
+ [b Int])
+
+(A :a 1 :b 2)
